@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/addressbook")
 public class AddressBookController {
@@ -21,18 +23,21 @@ public class AddressBookController {
     // GET ALL
     @GetMapping("/get")
     public ResponseEntity<List<AddressBook>> getAll() {
+        log.info("Fetching all address book entries");
         return ResponseEntity.ok(service.getAll());
     }
 
     // GET BY ID
     @GetMapping("/get/{id}")
     public ResponseEntity<AddressBook> getById(@PathVariable int id) {
+        log.info("Fetching address with ID: {}", id);
         return ResponseEntity.ok(service.getById(id));
     }
 
     // CREATE
     @PostMapping("/create")
     public ResponseEntity<AddressBook> create(@RequestBody AddressBookDTO dto) {
+        log.info("Creating new address: {}", dto);
         return ResponseEntity.ok(service.create(dto));
     }
 
@@ -40,12 +45,14 @@ public class AddressBookController {
     @PutMapping("/update/{id}")
     public ResponseEntity<AddressBook> update(@PathVariable int id,
                                               @RequestBody AddressBookDTO dto) {
+        log.info("Updating address with ID: {}", id);
         return ResponseEntity.ok(service.update(id, dto));
     }
 
     // DELETE
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
+        log.info("Deleting address with ID: {}", id);
         return ResponseEntity.ok(service.delete(id));
     }
 }
