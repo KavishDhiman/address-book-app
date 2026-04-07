@@ -1,21 +1,21 @@
 package com.example.addressbook.model;
 
+import com.example.addressbook.dto.AddressBookDTO;
+
 public class AddressBook {
 
     private int id;
     private String name;
     private String city;
 
-    // Constructors
     public AddressBook() {}
 
-    public AddressBook(int id, String name, String city) {
+    public AddressBook(int id, AddressBookDTO dto) {
         this.id = id;
-        this.name = name;
-        this.city = city;
+        this.name = dto.getName();
+        this.city = dto.getCity();
     }
 
-    // Getters & Setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
 
