@@ -1,38 +1,63 @@
 package com.example.addressbook.controller;
 
+import com.example.addressbook.model.AddressBook;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.*;
 
 @RestController
 @RequestMapping("/addressbook")
 public class AddressBookController {
 
-    // Test API
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "Welcome to Address Book App!";
-    }
+    private List<AddressBook> list = new ArrayList<>();
 
-    // Dummy GET
+    // GET ALL
     @GetMapping("/get")
-    public String getData() {
-        return "GET Request Successful";
+    public ResponseEntity<List<AddressBook>> getAll() {
+        return ResponseEntity.ok(list);
     }
 
-    // Dummy POST
+    // GET BY ID
+    @GetMapping("/get/{id}")
+    public ResponseEntity<AddressBook> getById(@PathVariable int id) {
+        return list.stream()
+                .filter(data -> data.getId() == id)
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    // POST
     @PostMapping("/create")
-    public String createData() {
-        return "POST Request Successful";
+    public ResponseEntity<AddressBook> create(@RequestBody AddressBook data) {
+        list.add(data);
+        return ResponseEntity.ok(data);
     }
 
-    // Dummy PUT
-    @PutMapping("/update")
-    public String updateData() {
-        return "PUT Request Successful";
+    // PUT
+    @PutMapping("/update/{id}")
+    public ResponseEntity<AddressBook> update(@PathVariable int id,
+                                              @RequestBody AddressBook updatedData) {
+
+        for (AddressBook data : list) {
+            if (data.getId() == id) {
+                data.setName(updatedData.getName());
+                data.setCity(updatedData.getCity());
+                return ResponseEntity.ok(data);
+            }
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    // Dummy DELETE
-    @DeleteMapping("/delete")
-    public String deleteData() {
-        return "DELETE Request Successful";
+    // DELETE
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> delete(@PathVariable int id) {
+        boolean removed = list.removeIf(data -> data.getId() == id);
+
+        if (removed)
+            return ResponseEntity.ok("Deleted Successfully");
+        else
+            return ResponseEntity.notFound().build();
     }
 }
