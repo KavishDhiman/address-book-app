@@ -3,7 +3,7 @@ package com.example.addressbook.service;
 import com.example.addressbook.dto.AddressBookDTO;
 import com.example.addressbook.model.AddressBook;
 import org.springframework.stereotype.Service;
-
+import com.example.addressbook.exception.AddressBookException;
 import java.util.*;
 
 @Service
@@ -27,7 +27,8 @@ public class AddressBookService implements IAddressBookService {
         return list.stream()
                 .filter(data -> data.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Address not found with ID: " + id));
+
+                .orElseThrow(() -> new AddressBookException("Address not found with ID: " + id));
     }
 
     // CREATE

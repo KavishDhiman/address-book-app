@@ -28,4 +28,13 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(AddressBookException.class)
+    public ResponseEntity<Object> handleAddressBookException(AddressBookException ex) {
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 404);
+        response.put("message", ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+    }
 }
