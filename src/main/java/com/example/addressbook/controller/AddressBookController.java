@@ -30,7 +30,13 @@ public class AddressBookController {
         return ResponseEntity.ok(service.getById(id));
     }
 
-    // PUT
+    // CREATE
+    @PostMapping("/create")
+    public ResponseEntity<AddressBook> create(@RequestBody AddressBookDTO dto) {
+        return ResponseEntity.ok(service.create(dto));
+    }
+
+    // UPDATE
     @PutMapping("/update/{id}")
     public ResponseEntity<AddressBook> update(@PathVariable int id,
                                               @RequestBody AddressBookDTO dto) {

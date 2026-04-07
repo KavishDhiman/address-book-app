@@ -9,7 +9,10 @@ import java.util.*;
 @Service
 public class AddressBookService implements IAddressBookService {
 
+    // In-memory storage
     private final List<AddressBook> list = new ArrayList<>();
+
+    // Auto ID generator
     private int counter = 1;
 
     // GET ALL
@@ -24,7 +27,7 @@ public class AddressBookService implements IAddressBookService {
         return list.stream()
                 .filter(data -> data.getId() == id)
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("ID not found: " + id));
+                .orElseThrow(() -> new RuntimeException("Address not found with ID: " + id));
     }
 
     // CREATE
@@ -38,17 +41,19 @@ public class AddressBookService implements IAddressBookService {
     // UPDATE
     @Override
     public AddressBook update(int id, AddressBookDTO dto) {
-        AddressBook data = getById(id); // reuse logic
-        data.setName(dto.getName());
-        data.setCity(dto.getCity());
-        return data;
+        AddressBook existing = getById(id); // reuse logic
+
+        existing.setName(dto.getName());
+        existing.setCity(dto.getCity());
+
+        return existing;
     }
 
     // DELETE
     @Override
     public String delete(int id) {
-        AddressBook data = getById(id);
-        list.remove(data);
+        AddressBook existing = getById(id);
+        list.remove(existing);
         return "Deleted Successfully";
     }
 }
