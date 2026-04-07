@@ -27,24 +27,14 @@ public class AddressBookController {
     // GET BY ID
     @GetMapping("/get/{id}")
     public ResponseEntity<AddressBook> getById(@PathVariable int id) {
-        AddressBook data = service.getById(id);
-        return data != null ? ResponseEntity.ok(data)
-                : ResponseEntity.notFound().build();
-    }
-
-    // POST
-    @PostMapping("/create")
-    public ResponseEntity<AddressBook> create(@RequestBody AddressBookDTO dto) {
-        return ResponseEntity.ok(service.create(dto));
+        return ResponseEntity.ok(service.getById(id));
     }
 
     // PUT
     @PutMapping("/update/{id}")
     public ResponseEntity<AddressBook> update(@PathVariable int id,
                                               @RequestBody AddressBookDTO dto) {
-        AddressBook data = service.update(id, dto);
-        return data != null ? ResponseEntity.ok(data)
-                : ResponseEntity.notFound().build();
+        return ResponseEntity.ok(service.update(id, dto));
     }
 
     // DELETE
